@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image as keras_image
 
 # Load TFLite model
-interpreter = tf.lite.Interpreter(model_path="model/ECG_CNN_MODEL_reduced.tflite")
+interpreter = tf.lite.Interpreter(model_path=r"C:\Users\Admin\OneDrive\Desktop\ecg\model\ECG_CNN_MODEL_reduced.tflite")
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
@@ -51,7 +51,7 @@ def estimate_bpm(signal, min_bpm=40, max_bpm=180):
     return bpm, peaks
 
 # Main function to analyze ECG image
-def analyze_ecg_adaptive(img_pil, patient_name="name", record_no="0"):
+def analyze_ecg_adaptive(img_pil, patient_name="Name", record_no="0"):
     try:
         # Preprocess image for model
         img_resized = img_pil.resize((224, 224))
@@ -123,7 +123,7 @@ gr.Interface(
     fn=analyze_ecg_adaptive,
     inputs=[
         gr.Image(type="pil", label="Upload ECG Image"),
-        gr.Textbox(label="Patient Name", value="name"),
+        gr.Textbox(label="Patient Name", value="Name"),
         gr.Textbox(label="Record Number", value="0")
     ],
     outputs=[
