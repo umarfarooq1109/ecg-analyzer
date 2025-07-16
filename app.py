@@ -105,12 +105,27 @@ def analyze_ecg_adaptive(img_pil, patient_name="Name", record_no="0"):
 
         avg_bpm = int(np.mean([b for b in bpm_list if b > 0])) if bpm_list else 0
 
+        # Heart Attack Risk Assessment
+        if condition == "NORMAL":
+            risk = "🟢 Low"
+            if avg_bpm < 60 or avg_bpm > 100:
+                risk = "🟡 Moderate"
+        elif condition == "HB":
+            risk = "🔴 High" if avg_bpm < 50 or avg_bpm > 120 else "🟡 Moderate"
+        elif condition == "MI":
+            risk = "🔴 High"
+        elif condition == "PMI":
+            risk = "🟡 Moderate" if avg_bpm < 60 or avg_bpm > 110 else "🟢 Low"
+        else:
+            risk = "⚠️ Unknown"
+
         report = (
             f"👤 Name: {patient_name}\n"
             f"🏷️ Record No: {record_no}\n"
             f"❤️ Condition: {condition}\n"
             f"📈 Estimated BPM: {avg_bpm}\n"
-            f"📋 Description: {description}"
+            f"📋 Description: {description}\n"
+            f"⚠️ Heart Attack Risk: {risk}"
         )
 
         return report, "12lead_plot.png"
@@ -130,5 +145,6 @@ gr.Interface(
         gr.Textbox(label="ECG Report"),
         gr.Image(label="ECG Visualization")
     ],
-    title="ECG Analyzer (Single or 12-Lead)"
+    title="🩺 ECG Analyzer (Single or 12-Lead)",
+    description="Upload an ECG image to get diagnosis, estimated heart rate (BPM), and heart attack risk level."
 ).launch()
