@@ -1,0 +1,7 @@
+gradio
+tensorflow
+numpy
+opencv-python
+matplotlib
+scipy
+pillow

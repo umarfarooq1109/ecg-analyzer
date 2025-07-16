@@ -1,0 +1,11 @@
+# Ignore virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Ignore model files over 100 MB
+*.h5
+
+# Ignore large binaries
+*.pyd
+*.dll
